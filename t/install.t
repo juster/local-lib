@@ -16,6 +16,9 @@ my $dir = tempdir('test_local_lib-XXXXX', DIR => Cwd::abs_path('t'), CLEANUP => 
 use local::lib ();
 local::lib->import($dir);
 
+# Unset PERL_MB_OPT in case it uses --destdir
+local $ENV{ 'PERL_MB_OPT' };
+
 my $orig_dir = cwd;
 SKIP: for my $dist_type (qw(EUMM MB)) {
   chdir File::Spec->catdir($orig_dir, qw(t dist), $dist_type);
